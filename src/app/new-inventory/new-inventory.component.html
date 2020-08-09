@@ -1,0 +1,134 @@
+<div class="col-lg-12">
+    <mat-progress-bar mode="query" *ngIf="dataLoading"></mat-progress-bar> 
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+        <div class="card card-user">
+            <ng-container>
+                <div class="card-body">
+                <div class="alert alert-danger" *ngIf="error">{{ errorMessage }}</div>
+                <div class="alert alert-success" *ngIf="success">{{ errorMessage }}</div>
+                <ng-container>
+                    <form [formGroup]="addInventoryForm" (change)="formChanged()" (ngSubmit)="addInventory(addInventoryForm.value)" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>Part Number</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>Part Number</mat-label>
+                                        <input matInput type="text" formControlName="part_no" id="part_no" autocomplete="off" required>
+                                        <mat-error class="mat-error-custom" *ngIf="addInventoryForm.hasError('required','part_no')">You must enter part number</mat-error>
+                                        <mat-error class="mat-error-custom" *ngIf="addInventoryForm.hasError('asynerror','part_no')">Part number already exists</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-md-8 pl-1">
+                                <div class="form-group">
+                                    <label>Part Name</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>Part Name</mat-label>
+                                        <input matInput type="text" formControlName="part_name" id="part_name" autocomplete="off" required>
+                                        <mat-error class="mat-error-custom" *ngIf="addInventoryForm.hasError('required','part_name')">You must enter part name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Category</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>Category</mat-label>
+                                        <mat-select formControlName="category" id="category" required>
+                                            <mat-option *ngFor="let categoryD of fetchData.categoryData" value={{categoryD.id}}>{{categoryD.category}}</mat-option>
+                                        </mat-select>
+                                        <mat-error class="mat-error-custom" *ngIf="addInventoryForm.hasError('required','category')">You must select a category first</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>Price</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>Price</mat-label>
+                                        <input matInput type="number" formControlName="price" id="price" autocomplete="off" required>
+                                        <mat-error class="mat-error-custom" *ngIf="addInventoryForm.hasError('required','price')">You must enter a valid price</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 pr-1">
+                                <div class="form-group">
+                                    <label>Part Description</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>Part Description</mat-label>
+                                        <input matInput type="text" formControlName="part_desc" id="part_desc" autocomplete="off">
+                                        <mat-error class="mat-error-custom" *ngIf="addInventoryForm.hasError('required','part_desc')">You must enter part description</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>Quantity</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>Quantity</mat-label>
+                                        <input matInput type="number" formControlName="quantity" id="quantity" autocomplete="off" required>
+                                        <mat-error class="mat-error-custom" *ngIf="addInventoryForm.hasError('required','quantity')">You must enter a valid quantity</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="file-field">
+                                        <div class="btn btn-primary btn-sm float-left col-md-3">
+                                            <span>Image</span>
+                                            <input type="file" name="part_image" (change)="preview($event)">
+                                        </div>
+                                        <div class="cstm-upld-bt float-left file-path-wrapper col-md-5">
+                                            <div *,pok9 ngIf="uploadedFilePath">
+                                                <span style="font-size:12px;">{{uploadedFilePath}}</span>
+                                            </div>
+                                            <div *ngIf="!uploadedFilePath">
+                                                <input class="file-path validate no-brdr" type="text" placeholder="Upload your file">
+                                            </div>
+                                        </div>
+                                        <div class="image-preview mb-3 float-left col-md-3" *ngIf="previewUrl">
+                                            <img [src]="previewUrl" height="100" width="100" />                 
+                                        </div>
+                                            <div class="clear"></div>
+                                    </div>
+                                        <div class="clear"></div>
+                                    <div *ngIf="previewUrl">
+                                        <button mat-raised-button class="btn btn-danger btn-round" type="button" (click)="uploadFile()">Upload</button>
+                                            <div class="clear"></div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="update ml-auto mr-auto">
+                                <button mat-raised-button class="btn btn-primary btn-round" [disabled]="addInventoryForm.invalid" type="submit">Save</button>
+                                <button mat-raised-button class="btn btn-danger btn-round" type="button" (click)="closeDialog()">Cancel</button>
+                                    <br/>
+                            </div>
+                        </div>
+                    </form>
+                </ng-container>
+                </div>
+            </ng-container>
+
+        </div>
+        </div>
+    </div>
+    </div>
+</div>

@@ -1,0 +1,314 @@
+<div class="col-lg-12">
+        <mat-progress-bar mode="query" *ngIf="dataLoading"></mat-progress-bar> 
+    <div class="content">
+        <div class="row">
+            <div class="col-md-4">
+            <div class="card card-user">
+                <ng-container *ngIf="!editForm">
+                    <div class="card-header">
+                        <h5 class="card-title">Add User</h5>
+                    </div>
+                    <div class="card-body">
+                    <div class="alert alert-danger" *ngIf="error">{{ errorMessage }}</div>
+                    <div class="alert alert-success" *ngIf="success">{{ errorMessage }}</div>
+                    <ng-container>
+                        <form [formGroup]="addUserForm" (ngSubmit)="addUser(addUserForm.value)">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Account Name</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>Account Name</mat-label>
+                                            <input matInput type="text" formControlName="account_name" id="account_name" autocomplete="off" name="account_name" required>
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('required','account_name')">You must enter account name</mat-error>
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('asynerror','account_name')">Username already exists</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput type="text" formControlName="first_name" id="first_name" autocomplete="off" required>
+                                        <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('required','first_name')">You must enter first name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                </div>
+                                <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                        <div class="clear"></div>
+                                    <mat-form-field class="form-control-mat-text" appearance="outline">
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput type="text" formControlName="last_name" id="last_name" autocomplete="off" required>
+                                        <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('required','last_name')">You must enter last name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>Email Address</mat-label>
+                                            <input matInput type="email" formControlName="email" id="email" autocomplete="off">
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('email','email')">Email address should be valid</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>Password</mat-label>
+                                            <input matInput type="password" formControlName="password" id="password" autocomplete="off" required>
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('required','password')">You must enter Password</mat-error>
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('minlength','password')">Password should be atleast 6 characters long</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-1">
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>Confirm Password</mat-label>
+                                            <input matInput type="password" formControlName="confirm_password" id="confirm_password" autocomplete="off" required>
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('required','confirm_password')">You must enter Password</mat-error>
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('passwordMatch','confirm_password')">Password not matched</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Role</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>Role</mat-label>
+                                            <mat-select formControlName="role" id="role" required>
+                                                <mat-option *ngFor="let rolesD of fetchData.rolesData" value={{rolesD.id}}>{{rolesD.roles}}</mat-option>
+                                            </mat-select>
+                                            <mat-error class="mat-error-custom" *ngIf="addUserForm.hasError('required','role')">You must select a role first</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button mat-raised-button class="btn btn-primary btn-round" [disabled]="addUserForm.invalid" type="submit">Save</button>
+                                <br/>
+                                </div>
+                            </div>
+                        </form>
+                    </ng-container>
+                    </div>
+                </ng-container>
+
+
+                <ng-container *ngIf="editForm">
+                        <div class="card-header">
+                            <h5 class="card-title">Edit User</h5>
+                        </div>
+                        <div class="card-body">
+                        <div class="alert alert-danger" *ngIf="error">{{ errorMessage }}</div>
+                        <div class="alert alert-success" *ngIf="success">{{ errorMessage }}</div>
+                        <ng-container>
+                            <form [formGroup]="editUserForm" (ngSubmit)="editUser(editUserForm.value,sentParmas.userId)">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Account Name</label>
+                                                <div class="clear"></div>
+                                            <mat-form-field class="form-control-mat-text" appearance="outline">
+                                                <mat-label>Account Name</mat-label>
+                                                <input matInput type="text" formControlName="account_name" id="account_name" autocomplete="off" name="account_name" required>
+                                                <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('required','account_name')">You must enter account name</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>First Name</mat-label>
+                                            <input matInput type="text" formControlName="first_name" id="first_name" autocomplete="off" required>
+                                            <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('required','first_name')">You must enter first name</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6 pl-1">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>Last Name</mat-label>
+                                            <input matInput type="text" formControlName="last_name" id="last_name" autocomplete="off" required>
+                                            <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('required','last_name')">You must enter last name</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Email Address</label>
+                                                <div class="clear"></div>
+                                            <mat-form-field class="form-control-mat-text" appearance="outline">
+                                                <mat-label>Email Address</mat-label>
+                                                <input matInput type="email" formControlName="email" id="email" autocomplete="off">
+                                                <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('email','email')">Email address should be valid</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Re-enter Password ?</label>
+                                                <mat-slide-toggle formControlName="passwordReader" id="passwordReader" class="mar-lft-20" (change)="togglePasswordControl()"></mat-slide-toggle>
+                                                <div class="clear"></div>
+                                                <span class="useful-btm-info-01">(Set switch to <b class="incrs-ft-size-01">OFF</b> if you wish to use existing password)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="viewPasswordControlsEdit">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                                <div class="clear"></div>
+                                            <mat-form-field class="form-control-mat-text" appearance="outline">
+                                                <mat-label>Password</mat-label>
+                                                <input matInput type="password" formControlName="password" id="password" autocomplete="off" required>
+                                                <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('required','password')">You must enter Password</mat-error>
+                                                <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('minlength','password')">Password should be atleast 6 characters long</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Confirm Password</label>
+                                                <div class="clear"></div>
+                                            <mat-form-field class="form-control-mat-text" appearance="outline">
+                                                <mat-label>Confirm Password</mat-label>
+                                                <input matInput type="password" formControlName="confirm_password" id="confirm_password" autocomplete="off" required>
+                                                <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('required','confirm_password')">You must enter Password</mat-error>
+                                                <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('passwordMatch','confirm_password')">Password not matched</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Role</label>
+                                                <div class="clear"></div>
+                                            <mat-form-field class="form-control-mat-text" appearance="outline">
+                                                <mat-label>Role</mat-label>
+                                                <mat-select formControlName="role" id="role" required>
+                                                    <mat-option *ngFor="let rolesD of fetchData.rolesData" value={{rolesD.id}}>{{rolesD.roles}}</mat-option>
+                                                </mat-select>
+                                                <mat-error class="mat-error-custom" *ngIf="editUserForm.hasError('required','role')">You must select a role first</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                        <button mat-raised-button class="btn btn-primary btn-round" [disabled]="editUserForm.invalid" type="submit">Update</button>
+                                    <br/>
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-container>
+                        </div>
+                    </ng-container>
+
+            </div>
+            </div>
+            <div class="col-md-8">
+            <div class="card card-user">
+                <div class="card-header">
+                <h5 class="card-title">Manage Users</h5>
+
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <mat-form-field>
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+                        </mat-form-field>
+                        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="col1">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> # </th>
+                            <td mat-cell *matCellDef="let tableData let i = index"> {{ i+1 + (tblPaginator.pageIndex * tblPaginator.pageSize) }} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="a_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Account Name </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.a_name}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="f_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Name </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.f_name}} {{tableData.l_name}}</td>
+                        </ng-container>
+                        
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="e_address">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Email </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.e_address}} </td>
+                        </ng-container>
+                        
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="roles">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Role </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.roles}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date_time">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Created On </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.date_time | date:'medium'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="col2">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Controls </th>
+                            <td mat-cell *matCellDef="let tableData">
+                                <ng-container *ngIf="tableData.status == 1">
+                                    <button mat-raised-button class="btn btn-sm btn-outline-success btn-round-cst btn-icon" type="button" (click)="updateStatus($event,tableData.id,tableData.status)" matTooltip="Activated"><i class="nc-icon nc-check-2"></i></button>
+                                </ng-container>
+                                <ng-container *ngIf="tableData.status == 0">
+                                    <button mat-raised-button class="btn btn-sm btn-outline-danger btn-round-cst btn-icon" type="button" (click)="updateStatus($event,tableData.id,tableData.status)" matTooltip="Deactivated"><i class="nc-icon nc-simple-remove"></i></button>
+                                </ng-container>
+                                <button mat-raised-button class="btn btn-sm btn-outline-info btn-round-cst btn-icon mar-lft-20" type="button"><i class="nc-icon nc-ruler-pencil" (click)="getUserInfo($event,tableData)" matTooltip="Edit"></i></button>
+
+                            </td>
+                        </ng-container>                            
+                        
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator #tblPaginator [pageSize]="13" [length]="25" [pageSizeOptions]="[30, 50, 100, 200]" showFirstLastButtons></mat-paginator> 
+                    </div>  
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+</div>

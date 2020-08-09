@@ -1,0 +1,89 @@
+<div class="col-lg-12">
+    <mat-progress-bar mode="query" *ngIf="dataLoading"></mat-progress-bar> 
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+        <div class="card card-user">
+            <div class="card-header">
+                <div class="example-button-container txt-rgt">
+                    <button mat-fab color="accent" (click)="openDialog()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+                <h5 class="card-title">Manage Inventory</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <mat-form-field>
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Keyword">
+                    </mat-form-field>
+                        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            
+                        <ng-container matColumnDef="col1">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> # </th>
+                            <td  mat-cell *matCellDef="let tableData let i = index"> {{ i+1 + (tblPaginator.pageIndex * tblPaginator.pageSize) }} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="col2">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Image </th>
+                            <td mat-cell *matCellDef="let tableData"> 
+                                <img src="http://localhost:3000/images/{{tableData.part_image}}" width="100" height="100" />
+                             </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="part_no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Part # </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.part_no}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="part_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Name </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.part_name}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="category">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Category </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.category}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="part_desc">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Description </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.part_desc}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cost_price">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Price </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.cost_price}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="quantity">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Quantity </th>
+                            <td mat-cell *matCellDef="let tableData"> {{tableData.quantity}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="col9">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="tbl-head-custm-cls"> Controls </th>
+                            <td mat-cell *matCellDef="let tableData">
+                                <ng-container *ngIf="tableData.status == 1">
+                                    <button mat-raised-button class="btn btn-sm btn-outline-success btn-round-cst btn-icon" type="button" (click)="updateInventoryStatus($event,tableData.id,tableData.status)" matTooltip="Activated"><i class="nc-icon nc-check-2"></i></button>
+                                </ng-container>
+                                <ng-container *ngIf="tableData.status == 0">
+                                    <button mat-raised-button class="btn btn-sm btn-outline-danger btn-round-cst btn-icon" type="button" (click)="updateInventoryStatus($event,tableData.id,tableData.status)" matTooltip="Deactivated"><i class="nc-icon nc-simple-remove"></i></button>
+                                </ng-container>
+                            </td>
+                        </ng-container>
+    
+                                                   
+                        
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator #tblPaginator [pageSize]="13" [length]="25" [pageSizeOptions]="[30, 50, 100, 200]" showFirstLastButtons></mat-paginator> 
+                </div>  
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+.txt-rgt {
+    text-align: right;
+}
+.clear {
+    clear: both;
+}
+.blur-background {
+    opacity: 0.9;
+}
+.mat-dialog-container {
+    padding: 0 !important;
+}

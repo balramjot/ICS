@@ -1,0 +1,59 @@
+<div class="col-lg-12">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+            <div class="card card-user">
+                
+                    <div class="card-header">
+                        <h5 class="card-title">Login</h5>
+                    </div>
+                    <div class="card-body">
+                    <div class="alert alert-danger" *ngIf="error">{{ errorMessage }}</div>
+                    <div class="alert alert-success" *ngIf="success">{{ errorMessage }}</div>
+                    <ng-container>
+                        <form [formGroup]="userLoginForm" (ngSubmit)="userLogin(userLoginForm.value)">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>UserName</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>UserName (jot)</mat-label>
+                                            <input matInput type="text" formControlName="username" id="username" autocomplete="off" name="username" required>
+                                            <mat-error class="mat-error-custom" *ngIf="userLoginForm.hasError('required','username')">You must enter username</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                            <div class="clear"></div>
+                                        <mat-form-field class="form-control-mat-text" appearance="outline">
+                                            <mat-label>Password (123123)</mat-label>
+                                            <input matInput type="password" formControlName="password" id="password" autocomplete="off" name="password" required>
+                                            <mat-error class="mat-error-custom" *ngIf="userLoginForm.hasError('required','password')">You must enter password</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button mat-raised-button class="btn btn-primary btn-round" [disabled]="userLoginForm.invalid" type="submit">Login</button>
+                                <br/>
+                                </div>
+                            </div>
+                        </form>
+                    </ng-container>
+                    </div>
+                
+            </div>
+            </div>
+        </div>
+        </div>
+</div>
